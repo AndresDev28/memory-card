@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
 
-function Scoreboard() {
+function Scoreboard({ turns }) {
   return (
-    <div>
-      <p>Soy un scoreboard</p>
+    <div className='scoreboard'>
+      <p>Turns: {turns}</p>
+      {/* Aquí ira el Best Score */}
     </div>
   );
 }
