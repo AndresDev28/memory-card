@@ -13,7 +13,7 @@ function App() {
   const [turns, setTurns] = useState(0);
 
   useEffect(() => {
-    fetch('https://dragonball-api.com/api/characters?limit=8')
+    fetch('https://dragonball-api.com/api/characters?limit=12')
       .then(res => res.json())
       .then(data => {
         // duplicamos las cartas de personajes para formar la parejas
@@ -77,16 +77,16 @@ function App() {
 
   return (
     <div className='App'>
-      <header>
-        <h1>Memory Card Z</h1>
+      <h1>Memory Card Z</h1>
+      <main className='game-container'>
         <Scoreboard turns={turns} />
-      </header>
-      <CardsGrid
-        cards={cards}
-        onCardClick={handleCardClick}
-        selection={selection} // Así el componente Card sabe si la carta está boca arriba o boca abajo en el array 'selection'
-        matched={matched}
-      />
+        <CardsGrid
+          cards={cards}
+          onCardClick={handleCardClick}
+          selection={selection} // Así el componente Card sabe si la carta está boca arriba o boca abajo en el array 'selection'
+          matched={matched}
+        />
+      </main>
     </div>
   );
 }

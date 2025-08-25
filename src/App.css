@@ -1,12 +1,28 @@
 .App {
+  position: relative;
+  overflow: hidden;
   text-align: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f09c53 0%, #d6410b 100%);
+  /* background: linear-gradient(135deg, #f09c53 0%, #d6410b 100%); */
   color: white;
+}
+
+.App::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/images/dragon-ball-super-3440x1440-21218.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
 }
 
 h1 {
@@ -16,16 +32,39 @@ h1 {
 }
 
 .game-container {
+  width: 95vw; /* Ocupa el 95% del ancho de pantalla*/
+  max-width: 900px; /* Pero nunca mas de 900px */
+  height: 90vh;
+  max-height: 800px;
   background: rgba(255, 255, 255, 0.1);
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 15px;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espacio entre scoreboard y el grid */
 }
 
 .game-container p {
   font-size: 1.2rem;
   margin: 0;
   opacity: 0.9;
+}
+
+.scoreboard {
+  flex-shrink: 0; /* Evita que se encoja */
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cards-grid {
+  flex-grow: 1; /* El grid ocupa todo el espacio vertical restante */
+  display: grid;
+  /* 6 columnas para las 24 cartas */
+  grid-template-columns: repeat(6, 1fr);
+  /* 4 filas para 24 cartas */
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1rem;
 }

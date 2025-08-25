@@ -1,0 +1,84 @@
+/* Contenedor principal que establece la perspectiva */
+.card {
+  /* Ocupa el 100% del espacio de la celda del grid*/
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Contenedor interno que realiza la animación de volteo */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s;
+  transform-style: preserve-3d;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Clase que se añade para voltear la carta (CORREGIDO) */
+.card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+/* Estilos comunes para ambas caras (CORREGIDO) */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Oculta la cara trasera del elemento */
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; /* Añadido para centrar verticalmente */
+}
+
+/* Estilos para el FRENTE de la carta (personaje) */
+.card-front {
+  background: linear-gradient(135deg, #1e1e1e 0%, #282828 100%);
+  color: #f0f0f0;
+  padding: 10px;
+  border: 2px solid #fff;
+  transform: rotateY(180deg);
+}
+
+.card-front img {
+  /* Ajustamos el tamaño de la imagen para que sea realivo */
+  max-width: 80%;
+  height: 80%; /* Ocupa el 60% de la altura de la carta */
+  object-fit: contain;
+  margin-bottom: 0.5em; /* Espacion relativo */
+}
+
+.card-front p {
+  font-weight: bold;
+  /* Tamaño de la fuente relativo para que escale con la carta */
+  font-size: 0.9em;
+  margin: 0;
+  text-align: center;
+}
+
+/* Estilos para el DORSO de la carta (logo) (CORREGIDO) */
+.card-back {
+  background: linear-gradient(135deg, #ff8c00 0%, #ff4500 100%);
+  border: 2px solid #fff;
+  transform: translateZ(1px);
+}
+
+.card-back img {
+  /* Ancho relativo al tamaño de la carta */
+  width: 80%;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+}
+
+.card-front img,
+.card-back img {
+  backface-visibility: hidden;
+}
