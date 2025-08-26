@@ -4,6 +4,8 @@ import CardsGrid from './components/CardsGrid';
 import Scoreboard from './components/Scoreboard';
 
 function App() {
+  // <-- ESTADOS -->
+
   const [cards, setCards] = useState([]);
   // Estado para la selección de cartas del jugador
   const [selection, setSelection] = useState([]); // Este array guardará las cartas completas que el usuario haya volteado en su turno (0, 1 o 2 cartas).
@@ -19,17 +21,35 @@ function App() {
   );
   // Estado para guardar a los personajes
   const [characters, setCharacters] = useState([]);
+  // Estado para elegir el número de cartas (Cantidad de parejas o selector de dificultad)
+  const [pairCount, setPairCount] = useState(8);
 
-  useEffect(() => {
-    fetch('https://dragonball-api.com/api/characters?limit=12')
-      .then(res => res.json())
-      .then(data => {
-        setCharacters(data.items); // Guardamos los personajes originales
-        shuffleAndDeal(data.items); // Barajamos y repartimos por primera vez
-      })
+  // <-- FIN DE ESTADOS -->
 
-      .catch(err => console.log('Error fetching characters', err));
-  }, []); // Se ejecuta solo una vez
+  // <-- FUNCIONES -->
+
+  function resetGame() {
+    resetTurnState();
+    shuffleAndDeal(characters);
+  }
+
+  // Función para barajar las cartas
+  function shuffleAndDeal(characterData) {
+    setNumPairs(characterData.length);
+    const gameCards = [...characterData, ...characterData];
+
+    console.log('Cantidad de cartas:', gameCards.length);
+
+    const processedCards = gameCards.map((card, index) => ({
+      // Copia todas las propiedades del personaje
+      ...card,
+      // Agrega una nueva propiedad 'uniqueId'
+      uniqueId: index,
+    }));
+    // Desordenamos el nuevo mazo de cartas
+    const shuffledCards = [...processedCards].sort(() => Math.random() - 0.5);
+    setCards(shuffledCards);
+  }
 
   function handleCardClick(clickedCard) {
     // Permitir seleccionar dos cartas por turno
@@ -37,6 +57,34 @@ function App() {
       setSelection([...selection, clickedCard]);
     }
   }
+
+  // Función para poner marcadores a 0 de la partida
+  function resetTurnState() {
+    setSelection([]);
+    setMatched([]);
+    setTurns(0);
+  }
+
+  // Funcion para elegir dificultad
+  function handleDifficultyChange(newPairCount) {
+    // 1. Reseteamos el progreso del juego inmediatamente.
+    resetTurnState();
+    // 2. Actualizamos el estado de dificultad para que se dispare el useEffect
+    setPairCount(newPairCount);
+  }
+
+  // <-- FIN FUNCIONES -->
+
+  useEffect(() => {
+    fetch(`https://dragonball-api.com/api/characters?limit=${pairCount}`)
+      .then(res => res.json())
+      .then(data => {
+        setCharacters(data.items); // Guardamos los personajes originales
+        shuffleAndDeal(data.items); // Barajamos y repartimos por primera vez
+      })
+
+      .catch(err => console.log('Error fetching characters', err));
+  }, [pairCount]); // Se ejecuta cada vez que cambia la variable pairCount
 
   // Creamos un hook de useEffect que se ejecute cada vez que el estado de 'selection' cambie.
   useEffect(() => {
@@ -78,30 +126,19 @@ function App() {
     }
   }, [matched, turns, numPairs]); // Depende de todas para mostrar el mensaje correcto
 
-  function resetGame() {
-    setSelection([]);
-    setMatched([]);
-    setTurns(0);
-    shuffleAndDeal(characters);
-  }
-
-  // Función para barajar las cartas
-  function shuffleAndDeal(characterData) {
-    // CORRECCIÓN: Usar el argumento 'characterData'
-    setNumPairs(characterData.length);
-    const gameCards = [...characterData, ...characterData];
-
-    console.log('Cantidad de cartas:', gameCards.length);
-
-    const processedCards = gameCards.map((card, index) => ({
-      // Copia todas las propiedades del personaje
-      ...card,
-      // Agrega una nueva propiedad 'uniqueId'
-      uniqueId: index,
-    }));
-    // Desordenamos el nuevo mazo de cartas
-    const shuffledCards = [...processedCards].sort(() => Math.random() - 0.5);
-    setCards(shuffledCards);
+  let columns = 4; // valor por defecto
+  switch (pairCount) {
+    case 6:
+      columns = 4; // Grid 4x3
+      break;
+    case 9:
+      columns = 4; // Grid 4x4
+      break;
+    case 12:
+      columns = 6; // Grid 6x4
+      break;
+    default:
+      columns = 4;
   }
 
   return (
@@ -110,13 +147,34 @@ function App() {
       <button onClick={resetGame} className='reset-game'>
         New Game
       </button>
+      <div className='difficulty-selector'>
+        <button
+          className={pairCount === 6 ? 'active' : ''}
+          onClick={() => handleDifficultyChange(6)}
+        >
+          Easy
+        </button>
+        <button
+          className={pairCount === 9 ? 'active' : ''}
+          onClick={() => handleDifficultyChange(9)}
+        >
+          Medium
+        </button>
+        <button
+          className={pairCount === 12 ? 'active' : ''}
+          onClick={() => handleDifficultyChange(12)}
+        >
+          Hard
+        </button>
+      </div>
       <main className='game-container'>
-        <Scoreboard turns={turns} bestScore={bestScore} />
+        <Scoreboard turns={turns} bestScore={bestScore} />1
         <CardsGrid
           cards={cards}
           onCardClick={handleCardClick}
           selection={selection} // Así el componente Card sabe si la carta está boca arriba o boca abajo en el array 'selection'
           matched={matched}
+          style={{ '--grid-cols': columns }}
         />
       </main>
     </div>

@@ -6,6 +6,8 @@
   perspective: 1000px;
   background-color: transparent;
   border: none;
+  position: relative;
+  transition: transform 0.2s ease-in-out;
   cursor: pointer;
   aspect-ratio: 1 / 1;
 }
@@ -82,4 +84,10 @@
 .card-front img,
 .card-back img {
   backface-visibility: hidden;
+}
+
+/* Efecto hover solo en cartas no volteadas */
+.card:has(.card-inner:not(.is-flipped)):hover {
+  transform: scale(1.05);
+  z-index: 10; /* Asegura que la carta se ponga por encima de las demás */
 }
