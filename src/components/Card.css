@@ -7,6 +7,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  aspect-ratio: 1 / 1;
 }
 
 /* Contenedor interno que realiza la animación de volteo */

@@ -11,27 +11,21 @@ function App() {
   const [matched, setMatched] = useState([]);
   // Estado para la gestión de turnos
   const [turns, setTurns] = useState(0);
+  // Estado para el número de parejas
+  const [numPairs, setNumPairs] = useState(0);
+  // Estado para mejor puntuación
+  const [bestScore, setBestScore] = useState(
+    localStorage.getItem('bestScore') || 0
+  );
+  // Estado para guardar a los personajes
+  const [characters, setCharacters] = useState([]);
 
   useEffect(() => {
     fetch('https://dragonball-api.com/api/characters?limit=12')
       .then(res => res.json())
       .then(data => {
-        // duplicamos las cartas de personajes para formar la parejas
-        const gameCards = [...data.items, ...data.items];
-        console.log('Cantidad de cartas:', gameCards.length);
-
-        const processedCards = gameCards.map((card, index) => ({
-          // Copia todas las propiedades del personaje
-          ...card,
-          // Agrega una nueva propiedad 'uniqueId'
-          uniqueId: index,
-        }));
-        // Desordenamos el nuevo mazo de cartas
-        const shuffledCards = [...processedCards].sort(
-          () => Math.random() - 0.5
-        );
-        setCards(shuffledCards);
-        console.log(shuffledCards);
+        setCharacters(data.items); // Guardamos los personajes originales
+        shuffleAndDeal(data.items); // Barajamos y repartimos por primera vez
       })
 
       .catch(err => console.log('Error fetching characters', err));
@@ -69,17 +63,55 @@ function App() {
 
   // useEffect para determinar la victoria del jugador
   useEffect(() => {
-    // Si el número de parejas es igual al máximo de las mismas (8) el jugador ha ganado
-    if (matched.length === 8) {
+    // USAMOS el estado 'numPairs' para la condición de victoria
+    // Comprobamos que numPairs > 0 para no ganar al inicio del juego con 0 parjas
+    if (numPairs > 0 && matched.length === numPairs) {
+      // Mejor puntuación de localStorage
+      const storedBestScore = localStorage.getItem('bestScore');
+      // Si no hay mejor puntuación o si los turns actuales son menores que bestScore, guarda la nueva puntuación
+      if (!storedBestScore || turns < parseInt(storedBestScore)) {
+        localStorage.setItem('bestScore', turns);
+      }
+      // Actualizamos el estado para que se refleje en pantalla
+      setBestScore(turns);
       alert(`Has ganado! Lo conseguiste en ${turns} turnos`);
     }
-  }, [matched, turns]); // Depende de ambas para mostrar el mensaje correcto
+  }, [matched, turns, numPairs]); // Depende de todas para mostrar el mensaje correcto
+
+  function resetGame() {
+    setSelection([]);
+    setMatched([]);
+    setTurns(0);
+    shuffleAndDeal(characters);
+  }
+
+  // Función para barajar las cartas
+  function shuffleAndDeal(characterData) {
+    // CORRECCIÓN: Usar el argumento 'characterData'
+    setNumPairs(characterData.length);
+    const gameCards = [...characterData, ...characterData];
+
+    console.log('Cantidad de cartas:', gameCards.length);
+
+    const processedCards = gameCards.map((card, index) => ({
+      // Copia todas las propiedades del personaje
+      ...card,
+      // Agrega una nueva propiedad 'uniqueId'
+      uniqueId: index,
+    }));
+    // Desordenamos el nuevo mazo de cartas
+    const shuffledCards = [...processedCards].sort(() => Math.random() - 0.5);
+    setCards(shuffledCards);
+  }
 
   return (
     <div className='App'>
       <h1>Memory Card Z</h1>
+      <button onClick={resetGame} className='reset-game'>
+        New Game
+      </button>
       <main className='game-container'>
-        <Scoreboard turns={turns} />
+        <Scoreboard turns={turns} bestScore={bestScore} />
         <CardsGrid
           cards={cards}
           onCardClick={handleCardClick}

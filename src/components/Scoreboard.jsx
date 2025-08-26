@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Scoreboard({ turns }) {
+function Scoreboard({ turns, bestScore }) {
   return (
     <div className='scoreboard'>
       <p>Turns: {turns}</p>
-      {/* Aquí ira el Best Score */}
+      <p>Best score: {bestScore}</p>
     </div>
   );
 }
