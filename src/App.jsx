@@ -22,7 +22,7 @@ function App() {
   // Estado para guardar a los personajes
   const [characters, setCharacters] = useState([]);
   // Estado para elegir el número de cartas (Cantidad de parejas o selector de dificultad)
-  const [pairCount, setPairCount] = useState(8);
+  const [pairCount, setPairCount] = useState(6);
 
   // <-- FIN DE ESTADOS -->
 
@@ -168,7 +168,7 @@ function App() {
         </button>
       </div>
       <main className='game-container'>
-        <Scoreboard turns={turns} bestScore={bestScore} />1
+        <Scoreboard turns={turns} bestScore={bestScore} />
         <CardsGrid
           cards={cards}
           onCardClick={handleCardClick}
