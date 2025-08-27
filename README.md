@@ -1,119 +1,107 @@
-# Memory Card Game
+# Dragon Ball Z - Memory Card Game
 
-A classic memory card game built with React to practice and demonstrate React concepts including components, hooks, state management, and modern React development patterns.
+A Dragon Ball Z-themed memory card game built with React. This project demonstrates modern React concepts, including components, hooks, state management, and advanced CSS animations.
 
 ## 🎯 Project Overview
 
-This memory card game is designed as a learning project to practice React fundamentals. Players need to match pairs of cards by remembering their positions on the board. The game tracks score, moves, and time to provide an engaging user experience.
+This memory game challenges players to find all matching pairs of Dragon Ball Z characters on a game board. The game utilizes the [Dragon Ball API](https://dragonball-api.com/) to dynamically fetch characters and offers different difficulty levels for an engaging and replayable experience.
 
 ## ✨ Features
 
-- **Interactive Gameplay**: Click cards to reveal and match pairs
-- **Score Tracking**: Keep track of moves and matches
-- **Timer**: Real-time game duration tracking
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Modern UI**: Clean and intuitive user interface
-- **Game Reset**: Start a new game at any time
-- **Win Detection**: Automatic detection when all pairs are matched
+-   **Variable Difficulty**: Choose between Easy, Medium, and Hard modes to change the number of cards in play.
+-   **3D Animations**: Cards feature a smooth 3D flip animation.
+-   **Visual Effects**: A hover effect enlarges cards to improve interactivity, and a custom background provides a unique aesthetic.
+-   **Score Tracking**: The game counts turns and saves the best score to the browser's local storage.
+-   **Responsive Design**: Works seamlessly on desktop and mobile devices, adjusting the game board to the screen size.
+-   **Complete Game Logic**: Automatic pair detection, game reset functionality, and a dynamic win condition.
 
 ## 🛠️ Technologies Used
 
-- **React 18**: Modern React with latest features
-- **Vite**: Fast build tool and development server
-- **CSS3**: Styling with modern CSS features
-- **JavaScript (ES6+)**: Modern JavaScript syntax and features
-- **Git**: Version control
+-   **React 18**: The core library for building the user interface.
+-   **Hooks**: `useState` and `useEffect` for functional state management and lifecycle events.
+-   **Vite**: A blazing-fast build tool and development server.
+-   **Modern CSS**:
+    -   Flexbox & Grid for complex, responsive layouts.
+    -   Animations with `transform` and `transition`.
+    -   CSS Custom Properties for dynamic styling from React.
+    -   Pseudo-elements for background effects.
+-   **JavaScript (ES6+)**: Modern JavaScript syntax and features.
+-   **Git & GitHub**: For version control.
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js (version 16 or higher)
-- npm or yarn package manager
+-   Node.js (v16 or higher)
+-   npm
 
 ### Installation
 
-1. Clone the repository:
-
-```bash
-git clone <repository-url>
-cd memory-card
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Start the development server:
-
-```bash
-npm run dev
-```
-
-4. Open your browser and navigate to `http://localhost:5173`
-
-### Building for Production
-
-To create a production build:
-
-```bash
-npm run build
-```
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/your-repo-name.git
+    cd memory-card
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Start the development server:
+    ```bash
+    npm run dev
+    ```
+4.  Open your browser and navigate to `http://localhost:5173` (or the port specified by Vite).
 
 ## 🎮 How to Play
 
-1. Click on any card to reveal it
-2. Click on a second card to find a matching pair
-3. If the cards match, they will remain visible
-4. If they don't match, they will flip back after a short delay
-5. Continue until all pairs are found
-6. Try to complete the game with the fewest moves and fastest time!
+1.  **Choose a difficulty**: Select "Easy", "Medium", or "Hard".
+2.  **Click a card** to reveal it.
+3.  **Click a second card** to try and find a match.
+4.  If the cards match, they will remain face up.
+5.  If they don't match, they will flip back down after a short delay.
+6.  The game ends when all pairs are found. Try to beat your best score!
 
 ## 📚 Learning Objectives
 
-This project serves as a practical exercise for:
+This project was a practical exercise to deepen understanding of:
 
-- **React Components**: Creating reusable and modular components
-- **React Hooks**: Using useState, useEffect, and custom hooks
-- **State Management**: Managing component and application state
-- **Event Handling**: Responding to user interactions
-- **Conditional Rendering**: Showing different UI based on game state
-- **Props and Data Flow**: Passing data between components
-- **CSS Styling**: Creating responsive and attractive designs
-- **Game Logic**: Implementing game mechanics and win conditions
+-   **Components & Props**: Creating modular and reusable components (`Card`, `CardsGrid`, `Scoreboard`).
+-   **Advanced State Management**: Using multiple `useState` hooks to manage game logic, user selections, and the UI.
+-   **Side Effects with `useEffect`**: Fetching data from an external API and reacting to state changes to trigger game logic.
+-   **Conditional Rendering**: Displaying different UI elements based on the game's state.
+-   **Advanced CSS Styling**:
+    -   Implementing 3D animations (`transform`, `perspective`, `backface-visibility`).
+    -   Creating complex, responsive layouts with Grid and Flexbox.
+    -   Using CSS Custom Properties to bridge React state with styling (e.g., number of grid columns).
+-   **Event Handling**: Efficiently responding to user interactions.
+-   **Local Storage**: Persisting data (the best score) in the browser.
 
 ## 🏗️ Project Structure
 
 ```
 src/
-├── App.jsx          # Main application component
-├── App.css          # Main application styles
-├── main.jsx         # Application entry point
-├── index.css        # Global styles
-└── assets/          # Static assets
+├── App.jsx             # Main component, contains all game logic
+├── App.css             # Main application styles
+├── main.jsx            # Application entry point
+├── index.css           # Global styles
+│
+├── assets/
+│   └── images/         # Local images for the background and cards
+│
+└── components/
+    ├── Card.jsx        # Component for a single card
+    ├── Card.css        # Styles specific to the card
+    ├── CardsGrid.jsx   # Component that renders the game board
+    └── Scoreboard.jsx  # Component to display turns and score
 ```
-
-## 🤝 Contributing
-
-This is a learning project, but contributions are welcome! Feel free to:
-
-- Report bugs
-- Suggest new features
-- Submit pull requests
-- Share improvements
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- Built as part of The Odin Project curriculum
-- Inspired by classic memory card games
-- Created for educational purposes to practice React development
+-   Built as part of The Odin Project curriculum.
+-   Character data from the [Dragon Ball API](https://dragonball-api.com/).
 
 ---
 
 **Happy coding! 🎉**
+
+---
